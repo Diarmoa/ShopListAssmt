@@ -79,7 +79,10 @@ class PlanCategoriesFragment : Fragment() {
         dragHelper.attachToRecyclerView(binding.recyclerView)
 
         val gestureDetector = GestureDetectorCompat(requireContext(), object : GestureDetector.SimpleOnGestureListener() {
-            override fun onDoubleTap(e: MotionEvent): Boolean {
+            override fun onDoubleTapEvent(e: MotionEvent): Boolean {
+                // Wait for the release: changing page while the press is held
+                // lets the release interrupt the ViewPager2 scroll.
+                if (e.actionMasked != MotionEvent.ACTION_UP) return super.onDoubleTapEvent(e)
                 val child = binding.recyclerView.findChildViewUnder(e.x, e.y)
                 val position = child?.let { binding.recyclerView.getChildAdapterPosition(it) } ?: RecyclerView.NO_POSITION
                 if (position != RecyclerView.NO_POSITION) {
@@ -91,7 +94,7 @@ class PlanCategoriesFragment : Fragment() {
                         return true
                     }
                 }
-                return super.onDoubleTap(e)
+                return super.onDoubleTapEvent(e)
             }
         })
 
