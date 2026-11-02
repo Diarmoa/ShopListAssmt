@@ -50,7 +50,8 @@ class ShopCategoriesFragment : Fragment() {
                 val position = child?.let { binding.recyclerView.getChildAdapterPosition(it) } ?: RecyclerView.NO_POSITION
                 if (position != RecyclerView.NO_POSITION) {
                     val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager)
-                    viewPager.currentItem = position
+                    // No animation: a slow page build can carry the scroll past its target.
+                    viewPager.setCurrentItem(position, false)
                     return true
                 }
                 return super.onDoubleTapEvent(e)

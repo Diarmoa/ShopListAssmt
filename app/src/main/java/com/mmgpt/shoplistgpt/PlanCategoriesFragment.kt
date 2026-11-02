@@ -90,7 +90,8 @@ class PlanCategoriesFragment : Fragment() {
                     if (item?.isHeading == true) {
                         val index = position - 1
                         val viewPager = requireActivity().findViewById<ViewPager2>(R.id.viewPager)
-                        viewPager.currentItem = index + 1
+                        // No animation: a slow page build can carry the scroll past its target.
+                        viewPager.setCurrentItem(index + 1, false)
                         return true
                     }
                 }
